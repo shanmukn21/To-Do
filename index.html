@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        body {
+            background-color: #3c424a;
+            color: white;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1,
+        #uol {
+            margin: 30px 0px;
+        }
+
+        #main {
+            height: 100%;
+            min-width: 320px;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        #addd {
+            margin: 30px 0px;
+            width: 100%;
+            max-width: 320px;
+            gap: 4px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        li {
+            display: flex;
+            flex-direction: row;
+            font-size: 20px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-radius: 8px;
+            border: 2px solid white;
+            padding: 4px 8px;
+            margin-bottom: 8px;
+        }
+
+        li input {
+            line-height: 40px;
+        }
+
+        #etxt {
+            font-size: 20px;
+            height: 30px;
+            flex-grow: 1;
+            padding-left: 8px;
+            border-radius: 4px;
+        }
+
+        button {
+            font-size: 20px;
+            height: 30px;
+            padding: 3px;
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 3px;
+        }
+
+        label {
+            margin-left: 4px;
+        }
+
+        #del {
+            font-size: xx-large;
+            background-color: #3c424a;
+            color: white;
+            border: 2px solid white;
+            border-radius: 50%;
+            max-height: 20px;
+            line-height: 0px;
+            padding: 1px 4px 5px 4px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="main">
+        <h1>Create your Todo-List</h1>
+        <div id="addd">
+            <input id="etxt" type="text" placeholder="Enter your task">
+            <button id="add">Add</button>
+        </div>
+        <div id="list">
+            <ul></ul>
+        </div>
+    </div>
+    <script>
+        let add = document.getElementById('add');
+        let etxt = document.getElementById('etxt');
+        let uol = document.querySelector("#list ul");
+        let cbs = document.getElementsByClassName('cb');
+        add.addEventListener('click', function () {
+            if (etxt.value !== "") {
+                let li = document.createElement("li");
+                let lid = document.createElement("div");
+                let cb = document.createElement("input");
+                let lab = document.createElement("label");
+                let del = document.createElement("button");
+                cb.type = 'checkbox';
+                cb.className = "cb";
+                cb.id = `cb${cbs.length + 1}`;
+                lab.innerText = etxt.value;
+                etxt.value = "";
+                lab.htmlFor = `cb${cbs.length + 1}`;
+                del.innerText = "-";
+                del.id = "del";
+                lid.appendChild(cb);
+                lid.appendChild(lab);
+                li.appendChild(lid);
+                li.appendChild(del);
+                uol.appendChild(li);
+                del.addEventListener('click', function () {
+                    uol.removeChild(li);
+                });
+            }
+        });
+
+    </script>
+</body>
+
+</html>
