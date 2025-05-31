@@ -1,0 +1,322 @@
+:root {
+  --primary-color: #6d28d9;
+  --secondary-color: #5b21b6;
+  --accent-color: #7c3aed;
+  --light-gray: #f3f4f6;
+  --white: #ffffff;
+  --priority-low: #10b981;
+  --priority-medium: #f59e0b;
+  --priority-high: #ef4444;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --column-width: 320px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  touch-action: none; /* Prevent default touch actions */
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  color: var(--primary-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  overscroll-behavior: none; /* Prevent pull-to-refresh */
+}
+
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+h1 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: 800;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.add-task-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input,
+select,
+button {
+  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input,
+select {
+  background: var(--white);
+  box-shadow: var(--shadow);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+}
+
+input {
+  flex: 1;
+  min-width: 200px;
+}
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236d28d9'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5em;
+  padding-right: 2.5rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+button {
+  background: var(--accent-color);
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.board-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  align-items: start;
+  padding-bottom: 1rem;
+}
+
+.column {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  height: fit-content;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.column h2 {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--light-gray);
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.25rem;
+  letter-spacing: 0.025em;
+}
+
+.task-list {
+  min-height: 200px;
+  transition: background-color 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 12px;
+}
+
+.task-list.drag-over {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.task {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: move;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.task.dragging {
+  opacity: 0.5;
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.task.priority-low {
+  border-left: 4px solid var(--priority-low);
+}
+
+.task.priority-medium {
+  border-left: 4px solid var(--priority-medium);
+}
+
+.task.priority-high {
+  border-left: 4px solid var(--priority-high);
+}
+
+.task-content {
+  margin-right: 4rem;
+  word-break: break-word;
+  outline: none;
+  cursor: text;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  overflow: hidden;
+  height: 33px;
+}
+
+.task-content:focus {
+  background: rgba(124, 58, 237, 0.1);
+  padding: 0.25rem;
+  border-radius: 4px;
+}
+
+.priority-indicator {
+  position: absolute;
+  top: 1.2rem;
+  right: 2.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  background: var(--light-gray);
+  transition: all 0.2s ease;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+.priority-indicator:hover {
+  background: var(--accent-color);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.priority-popup {
+  position: fixed;
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  min-width: 120px;
+}
+
+.priority-option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.priority-option:hover {
+  background: var(--light-gray);
+}
+
+.priority-option.selected {
+  background: var(--accent-color);
+  color: var(--white);
+}
+
+.delete-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  min-width: auto;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.delete-btn:hover {
+  color: var(--priority-high);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+@media (max-width: 640px) {
+  .app-container {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .add-task-container {
+    row-gap: 1rem;
+    column-gap: 4%;
+  }
+
+  input{
+    min-width: 100%;
+  }
+
+  select,
+  button {
+    width: 48%;
+  }
+
+  .board-container {
+    grid-template-columns: 1fr;
+  }
+
+  .task-content {
+    margin-right: 5rem;
+  }
+
+  .priority-indicator {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
